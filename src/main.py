@@ -1,30 +1,28 @@
 import pyxel
+import math
 
 W, H = 160, 120
-x, y = 10, 10
-dx, dy = 1, 1
+cx, cy = W // 2, H // 2
 
+angle = 0.0
+radius = 0.0
 
 def update():
-    global x, y, dx, dy
-    # Quit with Q
-    if pyxel.btnp(pyxel.KEY_Q):
-        pyxel.quit()
-
-    # Simple movement demo
-    x += dx
-    y += dy
-    if x <= 0 or x >= W - 10:
-        dx = -dx
-    if y <= 0 or y >= H - 10:
-        dy = -dy
- 
+    global angle, radius
+    angle += 0.1
+    radius += 0.3
+    if radius > min(W, H):
+        radius = 0
+        angle = 0
 
 def draw():
-    pyxel.cls(0)              # clear screen to color 0 (black)
-    pyxel.text(4, 4, "Hello Pyxel Web!", 7)
-    pyxel.rect(x, y, 10, 10, 11)  # small bouncing square
+    # pyxel.cls(0)
 
+    x = cx + radius * math.cos(angle)
+    y = cy + radius * math.sin(angle)
+    pyxel.pset(x, y, 7)
 
-pyxel.init(W, H, title="Pyxel Web (Codespaces)")
+pyxel.init(W, H, title="Pyxel Spiral Art")
 pyxel.run(update, draw)
+
+
